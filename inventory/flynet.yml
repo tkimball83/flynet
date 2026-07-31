@@ -25,10 +25,4 @@ all:
           flyio_region: ewr
         sunfyre:
           flyio_region: fra
-        drogon:
-          flyio_region: ams
-        rhaegal:
-          flyio_region: lhr
-        viserion:
-          flyio_region: arn
 ...
