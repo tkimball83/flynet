@@ -1,0 +1,30 @@
+---
+all:
+  children:
+    nats:
+      hosts:
+        flynet-nats:
+          flyio_region: ord
+    flynet:
+      hosts:
+        balerion:
+          flyio_region: ord
+        vhagar:
+          flyio_region: iad
+        meraxes:
+          flyio_region: dfw
+        vermithor:
+          flyio_region: sjc
+        dreamfyre:
+          flyio_region: lax
+        caraxes:
+          flyio_region: ewr
+        sunfyre:
+          flyio_region: fra
+        drogon:
+          flyio_region: ams
+        rhaegal:
+          flyio_region: lhr
+        viserion:
+          flyio_region: arn
+...

@@ -1,0 +1,8 @@
+---
+- name: Ensure flynet info playbook is executed
+  hosts: nats:flynet
+  gather_facts: false
+  roles:
+    - linuxhq.flyio.apps_info
+    - linuxhq.flyio.machines_info
+...

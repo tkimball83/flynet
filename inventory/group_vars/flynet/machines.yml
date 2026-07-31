@@ -1,0 +1,23 @@
+---
+machines_api_token: "{{ flyio_api_token }}"
+
+machines_info_api_token: "{{ flyio_api_token }}"
+machines_info_app_name: "{{ inventory_hostname }}"
+
+machines_list:
+  - app_name: "{{ inventory_hostname }}"
+    env:
+      BOTNATS_NATS_TOKEN: "{{ flyio_flynet_nats_token }}"
+      BOTNATS_TOTP_SECRET: "{{ flyio_flynet_totp_secret }}"
+    files:
+      - guest_path: /etc/botnats/bot.toml
+        raw_value: >-
+          {{ lookup('template', 'bot.toml.j2') | b64encode }}
+    guest:
+      cpu_kind: shared
+      cpus: 1
+      memory_mb: 256
+    image: "{{ botnats_image }}"
+    name: "{{ inventory_hostname }}"
+    region: "{{ flyio_region }}"
+...

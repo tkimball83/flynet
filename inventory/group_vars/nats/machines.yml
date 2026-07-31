@@ -1,0 +1,28 @@
+---
+machines_api_token: "{{ flyio_api_token }}"
+
+machines_info_api_token: "{{ flyio_api_token }}"
+machines_info_app_name: "{{ inventory_hostname }}"
+
+machines_list:
+  - app_name: "{{ inventory_hostname }}"
+    env:
+      BOTNATS_NATS_TOKEN: "{{ flyio_flynet_nats_token }}"
+    files:
+      - guest_path: /nats-server.conf
+        raw_value: >-
+          {{ lookup('template', 'nats-server.conf.j2') | b64encode }}
+    guest:
+      cpu_kind: shared
+      cpus: 1
+      memory_mb: 256
+    image: nats:2.14.0-alpine
+    init:
+      cmd:
+        - exec nats-server --config /nats-server.conf
+      entrypoint:
+        - /bin/sh
+        - -c
+    name: "{{ inventory_hostname }}"
+    region: "{{ flyio_region }}"
+...

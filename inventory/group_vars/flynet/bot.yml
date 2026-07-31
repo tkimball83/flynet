@@ -1,0 +1,13 @@
+---
+botnats_image: ghcr.io/tkimball83/botnats:sha-365a5fc
+flynet_irc_servers:
+  - ircs://efnet.deic.eu:6697
+  - ircs://efnet.tngnet.nl:6697
+  - ircs://irc.choopa.net:6697
+  - ircs://irc.efnet.nl:6697
+  - ircs://irc.mzima.net:6697
+  - ircs://irc.swepipe.se:6697
+  - ircs://irc.underworld.no:6697
+flynet_nats_servers:
+  - nats://flynet-nats.internal:4222
+...

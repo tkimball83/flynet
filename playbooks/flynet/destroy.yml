@@ -1,0 +1,12 @@
+---
+- name: Ensure flynet destroy playbook is executed
+  hosts: nats:flynet
+  gather_facts: false
+  tasks:
+    - name: Ensure flynet apps are absent
+      linuxhq.flyio.apps:
+        api_token: "{{ flyio_api_token }}"
+        name: "{{ inventory_hostname }}"
+        org_slug: "{{ flyio_org_slug }}"
+        state: absent
+...

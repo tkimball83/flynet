@@ -1,0 +1,14 @@
+# .gitignore
+
+.ansible
+.claude
+.codex
+.DS_Store
+*.egg-info
+.ruff_cache
+__pycache__
+build
+dist
+galaxy_cache
+tmp
+venv
