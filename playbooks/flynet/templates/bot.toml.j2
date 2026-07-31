@@ -11,6 +11,7 @@ verify_tls = false
 servers = {{ flynet_nats_servers | to_json }}
 
 [authorization]
+authority_bot_id = {{ flynet_auth_authority_bot_id | to_json }}
 session_ttl_seconds = 3600
 
 [coordination]
