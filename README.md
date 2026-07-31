@@ -75,17 +75,20 @@ six-digit code from the enrolled authenticator:
 
 Authorization is bound to the exact IRC nick, user, and host for one hour. The
 TOTP step is claimed through Core NATS so it cannot be reused against another
-bot. The supported commands are:
+bot. Successful authentication also requests ops for that exact identity in
+every managed channel where it is present. The supported commands are:
 
 ```text
+DEOP <channel> <nick>
 JOIN <channel> [key]
-OP <channel>
+OP <channel> <nick>
 PART <channel>
 STATUS
 HELP
 ```
 
 Authenticating to any one bot authorizes the exact IRC identity on every bot for
-the session. `OP` targets that identity only; an opped provider verifies its
-current nick, user, and host in the channel before granting ops. Channel state
-is broadcast through NATS and included in subsequent state exchanges.
+the session. `OP` and `DEOP` can target the requester or another current channel
+member. An opped provider verifies the requester has an active session before
+changing the target's mode. Channel state is broadcast through NATS and included
+in subsequent state exchanges.
