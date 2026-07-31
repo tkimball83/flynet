@@ -12,17 +12,17 @@ all:
     flynet:
       hosts:
         balerion:
-          flyio_region: ord
-        vhagar:
-          flyio_region: iad
-        meraxes:
           flyio_region: dfw
-        vermithor:
-          flyio_region: sjc
-        dreamfyre:
-          flyio_region: lax
         caraxes:
           flyio_region: ewr
+        drogon:
+          flyio_region: ams
+        rhaegal:
+          flyio_region: lhr
         sunfyre:
-          flyio_region: fra
+          flyio_region: lax
+        vhagar:
+          flyio_region: sjc
+        viserion:
+          flyio_region: arn
 ...
