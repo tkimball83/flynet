@@ -1,6 +1,6 @@
 ---
-flynet_image: ghcr.io/tkimball83/botnats:sha-bd5ae6f
-flynet_auth_authority_bot_id: balerion
+flynet_image: ghcr.io/tkimball83/botnats:sha-3a7c268
+flynet_network: efnet
 flynet_irc_servers:
   - ircs://efnet.deic.eu:6697
   - ircs://efnet.tngnet.nl:6697
