@@ -1,5 +1,5 @@
 ---
-botnats_image: ghcr.io/tkimball83/botnats:sha-d35ab34
+flynet_image: ghcr.io/tkimball83/botnats:sha-d35ab34
 flynet_auth_authority_bot_id: balerion
 flynet_irc_servers:
   - ircs://efnet.deic.eu:6697
@@ -10,7 +10,7 @@ flynet_irc_servers:
   - ircs://irc.swepipe.se:6697
   - ircs://irc.underworld.no:6697
 flynet_nats_servers:
-  - nats://flynet-nats.internal:4222
-  - nats://flynet-nats-fra.internal:4222
-  - nats://flynet-nats-iad.internal:4222
+  - nats://nats-fra.internal:4222
+  - nats://nats-iad.internal:4222
+  - nats://nats-ord.internal:4222
 ...

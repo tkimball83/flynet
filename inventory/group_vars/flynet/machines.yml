@@ -18,7 +18,7 @@ machines_list:
       cpu_kind: shared
       cpus: 1
       memory_mb: 256
-    image: "{{ botnats_image }}"
+    image: "{{ flynet_image }}"
     name: "{{ inventory_hostname }}"
     region: "{{ flyio_region }}"
 ...

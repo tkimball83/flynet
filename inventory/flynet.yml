@@ -3,12 +3,12 @@ all:
   children:
     nats:
       hosts:
-        flynet-nats:
-          flyio_region: ord
-        flynet-nats-fra:
+        nats-fra:
           flyio_region: fra
-        flynet-nats-iad:
+        nats-iad:
           flyio_region: iad
+        nats-ord:
+          flyio_region: ord
     flynet:
       hosts:
         balerion:

@@ -9,11 +9,11 @@ machines_list:
     env:
       BOTNATS_NATS_CLUSTER_ADVERTISE: "{{ inventory_hostname }}.internal:6222"
       BOTNATS_NATS_ROUTE_FRA: >-
-        nats://flynet-route:{{ flyio_flynet_nats_token }}@flynet-nats-fra.internal:6222
+        nats://flynet-route:{{ flyio_flynet_nats_token }}@nats-fra.internal:6222
       BOTNATS_NATS_ROUTE_IAD: >-
-        nats://flynet-route:{{ flyio_flynet_nats_token }}@flynet-nats-iad.internal:6222
+        nats://flynet-route:{{ flyio_flynet_nats_token }}@nats-iad.internal:6222
       BOTNATS_NATS_ROUTE_ORD: >-
-        nats://flynet-route:{{ flyio_flynet_nats_token }}@flynet-nats.internal:6222
+        nats://flynet-route:{{ flyio_flynet_nats_token }}@nats-ord.internal:6222
       BOTNATS_NATS_SERVER_NAME: "{{ inventory_hostname }}"
       BOTNATS_NATS_TOKEN: "{{ flyio_flynet_nats_token }}"
     files:
