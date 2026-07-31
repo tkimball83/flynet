@@ -1,5 +1,5 @@
 ---
-botnats_image: ghcr.io/tkimball83/botnats:sha-aad3f6a
+botnats_image: ghcr.io/tkimball83/botnats:sha-a4ca2b0
 flynet_irc_servers:
   - ircs://efnet.deic.eu:6697
   - ircs://efnet.tngnet.nl:6697
