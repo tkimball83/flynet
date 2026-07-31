@@ -1,0 +1,22 @@
+{{ {
+  "bot": {
+    "id": inventory_hostname,
+    "network": flynet_network,
+    "nickname": inventory_hostname
+  },
+  "irc": {
+    "servers": flynet_irc_servers,
+    "connect_timeout_seconds": 30,
+    "verify_tls": false
+  },
+  "nats": {
+    "servers": flynet_nats_servers
+  },
+  "authorization": {
+    "session_ttl_seconds": 3600
+  },
+  "coordination": {
+    "maintenance_interval_seconds": 3,
+    "presence_ttl_seconds": 15
+  }
+} | to_nice_json }}

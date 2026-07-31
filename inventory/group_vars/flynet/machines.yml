@@ -11,9 +11,9 @@ machines_list:
       BOTNATS_NATS_TOKEN: "{{ flyio_flynet_nats_token }}"
       BOTNATS_TOTP_SECRET: "{{ flyio_flynet_totp_secret }}"
     files:
-      - guest_path: /etc/botnats/bot.toml
+      - guest_path: /etc/botnats/bot.json
         raw_value: >-
-          {{ lookup('template', 'bot.toml.j2') | b64encode }}
+          {{ lookup('template', 'bot.json.j2') | b64encode }}
     guest:
       cpu_kind: shared
       cpus: 1

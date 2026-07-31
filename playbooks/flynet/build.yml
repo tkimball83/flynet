@@ -1,5 +1,5 @@
 ---
-- name: Ensure the ephemeral NATS service is deployed
+- name: Ensure flynet nats are deployed
   hosts: nats
   gather_facts: false
   roles:
@@ -8,6 +8,7 @@
 
 - name: Ensure flynet bots are deployed
   hosts: flynet
+  serial: 1
   gather_facts: false
   roles:
     - linuxhq.flyio.apps
