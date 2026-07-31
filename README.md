@@ -2,8 +2,8 @@
 
 Flynet deploys a group of stateless
 [BotNATS](https://github.com/tkimball83/botnats) IRC workers and a private Core
-NATS service on Fly.io. There are no Eggdrop userfiles, volumes, hubs, or durable
-NATS streams.
+NATS cluster on Fly.io. There are no Eggdrop userfiles, volumes, hubs, or
+durable NATS streams.
 
 BotNATS behavior and development documentation live in its own repository.
 This repository owns only the Fly.io inventory, secrets, and deployment
@@ -49,8 +49,13 @@ source venv/bin/activate
 ansible-playbook playbooks/flynet/build.yml
 ```
 
-The build creates one private, volume-free `flynet-nats` app first, then the bot
-apps. No public IP allocation is required by the deployment.
+The build creates three private, volume-free NATS nodes in `ord`, `fra`, and
+`iad`, then the bot apps. The servers form a full-mesh Core NATS cluster over
+authenticated routes, and every bot is configured with all three stable node
+addresses. Losing one NATS machine or app leaves two client endpoints and their
+route intact. Because Core NATS has no durable state, volumes are unnecessary;
+the online bots resynchronize their in-memory state after reconnecting. No
+public IP allocation is required by the deployment.
 
 Inspect or destroy the deployment with:
 
@@ -92,3 +97,8 @@ the session. `OP` and `DEOP` can target the requester or another current channel
 member. An opped provider verifies the requester has an active session before
 changing the target's mode. Channel state is broadcast through NATS and included
 in subsequent state exchanges.
+
+When a bot is kicked or receives a channel-ban rejection, it requests an unban
+through NATS using its exact advertised IRC identity. An opped peer removes the
+matching standard ban mask, and the normal join loop returns the bot to the
+channel.

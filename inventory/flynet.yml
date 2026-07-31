@@ -5,6 +5,10 @@ all:
       hosts:
         flynet-nats:
           flyio_region: ord
+        flynet-nats-fra:
+          flyio_region: fra
+        flynet-nats-iad:
+          flyio_region: iad
     flynet:
       hosts:
         balerion:

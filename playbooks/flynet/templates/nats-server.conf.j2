@@ -1,6 +1,27 @@
+server_name: $BOTNATS_NATS_SERVER_NAME
 host: "::"
 port: 4222
+http: "[::]:8222"
 
 authorization {
   token: $BOTNATS_NATS_TOKEN
+}
+
+cluster {
+  name: flynet
+  host: "::"
+  port: 6222
+  advertise: $BOTNATS_NATS_CLUSTER_ADVERTISE
+  no_advertise: true
+
+  authorization {
+    user: flynet-route
+    password: $BOTNATS_NATS_TOKEN
+  }
+
+  routes: [
+    $BOTNATS_NATS_ROUTE_FRA,
+    $BOTNATS_NATS_ROUTE_IAD,
+    $BOTNATS_NATS_ROUTE_ORD
+  ]
 }
