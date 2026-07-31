@@ -79,11 +79,13 @@ bot. The supported commands are:
 
 ```text
 JOIN <channel> [key]
+OP <channel>
 PART <channel>
 STATUS
 HELP
 ```
 
-Authenticating to any one bot is sufficient; accepted channel commands are
-broadcast to every online bot through NATS and included in subsequent state
-exchanges.
+Authenticating to any one bot authorizes the exact IRC identity on every bot for
+the session. `OP` targets that identity only; an opped provider verifies its
+current nick, user, and host in the channel before granting ops. Channel state
+is broadcast through NATS and included in subsequent state exchanges.
