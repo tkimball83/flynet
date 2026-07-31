@@ -1,14 +1,9 @@
 ---
 flynet_image: ghcr.io/tkimball83/botnats:sha-af3c082
-flynet_network: efnet
+flynet_network: undernet
 flynet_irc_servers:
-  - ircs://efnet.deic.eu:6697
-  - ircs://efnet.tngnet.nl:6697
-  - ircs://irc.choopa.net:6697
-  - ircs://irc.efnet.nl:6697
-  - ircs://irc.mzima.net:6697
-  - ircs://irc.swepipe.se:6697
-  - ircs://irc.underworld.no:6697
+  - irc://eu.undernet.org:6667
+  - irc://us.undernet.org:6667
 flynet_nats_servers:
   - nats://nats-fra.internal:4222
   - nats://nats-iad.internal:4222
