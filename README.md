@@ -28,6 +28,9 @@ Create these encrypted SSM parameters before deployment:
 
 The NATS token authenticates bot connections to the private NATS service. The
 TOTP secret provisions an authenticator app without ever crossing IRC.
+This EFnet deployment explicitly disables IRC certificate verification because
+the active server pool largely uses self-signed certificates; the connections
+remain encrypted.
 
 ## Development
 
@@ -57,6 +60,11 @@ ansible-playbook playbooks/flynet/destroy.yml
 ```
 
 ## IRC authorization and commands
+
+Open the decrypted `/flyio/flynet/irc/totp/secret` SecureString in AWS Systems
+Manager Parameter Store and add it to an authenticator as a time-based SHA-1
+entry with six digits and a 30-second period. Use `BotNATS` as the issuer and
+`flynet` as the account name.
 
 Commands are accepted only by private message. Authenticate with the current
 six-digit code from the enrolled authenticator:
