@@ -37,8 +37,8 @@ machines_list:
         type: http
         port: 8222
         path: /healthz
-        interval: 10000
-        timeout: 2000
+        interval: "10s"
+        timeout: "2s"
     guest:
       cpu_kind: shared
       cpus: 1

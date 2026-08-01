@@ -28,24 +28,24 @@
       delay: 5
 
 - name: Ensure flynet nats cluster routes are synced
-  hosts: nats[0]
+  hosts: nats
   gather_facts: false
   tasks:
-    - name: Ensure nats cluster has 3 routes
+    - name: Ensure nats routez reports peer connections
       ansible.builtin.shell:
         cmd: >-
-          for app in {{ groups['nats'] | join(' ') }}; do
-          flyctl machine exec "$app" -a "$app"
-          wget -qO- http://localhost:8222/routez |
-          python3 -c "import sys,json;print(json.load(sys.stdin)['num_routes'])";
-          done
+          flyctl machine exec
+          "$(flyctl machines list -a {{ inventory_hostname }} --json |
+          python3 -c "import sys,json;print(json.load(sys.stdin)[0]['id'])")"
+          -a {{ inventory_hostname }}
+          "wget -qO- http://localhost:8222/routez"
       register: __routez_result
       until: >-
-        __routez_result.stdout_lines |
-        map('int') |
-        select('equalto', 2) |
+        (__routez_result.stdout | default('{}') | from_json).get('routes', []) |
+        map(attribute='remote_name') |
+        unique |
         list |
-        length == 3
+        length == 2
       retries: 30
       delay: 5
       changed_when: false
