@@ -5,6 +5,7 @@
     "nickname": inventory_hostname
   },
   "irc": {
+    "channel_modes": flynet_channel_modes | d("+npst"),
     "servers": flynet_irc_servers,
     "connect_timeout_seconds": 30,
     "verify_tls": false

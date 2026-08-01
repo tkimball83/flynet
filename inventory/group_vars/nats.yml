@@ -1,25 +1,44 @@
 ---
+ansible_connection: local
+ansible_python_interpreter: "{{ ansible_playbook_python }}"
+
+apps_api_token: "{{ flyio_api_token }}"
+
+apps_info_api_token: "{{ flyio_api_token }}"
+apps_info_org_slug: "{{ flyio_org_slug }}"
+
+apps_list:
+  - name: "{{ inventory_hostname }}"
+    network: flynet
+    org_slug: "{{ flyio_org_slug }}"
+
 machines_api_token: "{{ flyio_api_token }}"
 
 machines_info_api_token: "{{ flyio_api_token }}"
 machines_info_app_name: "{{ inventory_hostname }}"
 
+nats_routes:
+  - nats://flynet:{{ flyio_flynet_nats_token }}@nats-fra.internal:6222
+  - nats://flynet:{{ flyio_flynet_nats_token }}@nats-iad.internal:6222
+  - nats://flynet:{{ flyio_flynet_nats_token }}@nats-ord.internal:6222
+
 machines_list:
   - app_name: "{{ inventory_hostname }}"
     env:
       BOTNATS_NATS_CLUSTER_ADVERTISE: "{{ inventory_hostname }}.internal:6222"
-      BOTNATS_NATS_ROUTE_FRA: >-
-        nats://flynet-route:{{ flyio_flynet_nats_token }}@nats-fra.internal:6222
-      BOTNATS_NATS_ROUTE_IAD: >-
-        nats://flynet-route:{{ flyio_flynet_nats_token }}@nats-iad.internal:6222
-      BOTNATS_NATS_ROUTE_ORD: >-
-        nats://flynet-route:{{ flyio_flynet_nats_token }}@nats-ord.internal:6222
       BOTNATS_NATS_SERVER_NAME: "{{ inventory_hostname }}"
       BOTNATS_NATS_TOKEN: "{{ flyio_flynet_nats_token }}"
     files:
       - guest_path: /nats-server.conf
         raw_value: >-
           {{ lookup('template', 'nats-server.conf.j2') | b64encode }}
+    checks:
+      healthz:
+        type: http
+        port: 8222
+        path: /healthz
+        interval: 10000
+        timeout: 2000
     guest:
       cpu_kind: shared
       cpus: 1

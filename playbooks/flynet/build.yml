@@ -2,9 +2,53 @@
 - name: Ensure flynet nats are deployed
   hosts: nats
   gather_facts: false
+  serial: 1
   roles:
     - linuxhq.flyio.apps
     - linuxhq.flyio.machines
+
+- name: Ensure flynet nats cluster is healthy
+  hosts: nats
+  gather_facts: false
+  tasks:
+    - name: Ensure nats health checks are passing
+      linuxhq.flyio.machines_info:
+        api_token: "{{ machines_info_api_token }}"
+        app_name: "{{ inventory_hostname }}"
+      register: __nats_health
+      until: >-
+        __nats_health.machines |
+        selectattr('checks', 'defined') |
+        map(attribute='checks') |
+        flatten |
+        selectattr('status', 'equalto', 'passing') |
+        list |
+        length == 1
+      retries: 30
+      delay: 5
+
+- name: Ensure flynet nats cluster routes are synced
+  hosts: nats[0]
+  gather_facts: false
+  tasks:
+    - name: Ensure nats cluster has 3 routes
+      ansible.builtin.shell:
+        cmd: >-
+          for app in {{ groups['nats'] | join(' ') }}; do
+          flyctl machine exec "$app" -a "$app"
+          wget -qO- http://localhost:8222/routez |
+          python3 -c "import sys,json;print(json.load(sys.stdin)['num_routes'])";
+          done
+      register: __routez_result
+      until: >-
+        __routez_result.stdout_lines |
+        map('int') |
+        select('equalto', 2) |
+        list |
+        length == 3
+      retries: 30
+      delay: 5
+      changed_when: false
 
 - name: Ensure flynet bots are deployed
   hosts: flynet

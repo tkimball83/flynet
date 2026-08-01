@@ -1,7 +1,8 @@
 ---
 - name: Ensure flynet destroy playbook is executed
-  hosts: nats:flynet
+  hosts: all
   gather_facts: false
+
   tasks:
     - name: Ensure flynet apps are absent
       linuxhq.flyio.apps:
