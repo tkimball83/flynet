@@ -31,12 +31,17 @@
   hosts: nats
   gather_facts: false
   tasks:
+    - name: Retrieve machine id
+      linuxhq.flyio.machines_info:
+        api_token: "{{ machines_info_api_token }}"
+        app_name: "{{ inventory_hostname }}"
+      register: __machines_result
+
     - name: Ensure nats routez reports peer connections
-      ansible.builtin.shell:
+      ansible.builtin.command:
         cmd: >-
           flyctl machine exec
-          "$(flyctl machines list -a {{ inventory_hostname }} --json |
-          python3 -c "import sys,json;print(json.load(sys.stdin)[0]['id'])")"
+          {{ __machines_result.machines[0].id }}
           -a {{ inventory_hostname }}
           "wget -qO- http://localhost:8222/routez"
       register: __routez_result
