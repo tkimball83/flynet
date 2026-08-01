@@ -1,27 +1,4 @@
 ---
-ansible_connection: local
-ansible_python_interpreter: "{{ ansible_playbook_python }}"
-
-apps_api_token: "{{ flyio_api_token }}"
-
-apps_info_api_token: "{{ flyio_api_token }}"
-apps_info_org_slug: "{{ flyio_org_slug }}"
-
-apps_list:
-  - name: "{{ inventory_hostname }}"
-    network: flynet
-    org_slug: "{{ flyio_org_slug }}"
-
-machines_api_token: "{{ flyio_api_token }}"
-
-machines_info_api_token: "{{ flyio_api_token }}"
-machines_info_app_name: "{{ inventory_hostname }}"
-
-nats_routes:
-  - nats://flynet:{{ flyio_flynet_nats_token }}@nats-fra.internal:6222
-  - nats://flynet:{{ flyio_flynet_nats_token }}@nats-iad.internal:6222
-  - nats://flynet:{{ flyio_flynet_nats_token }}@nats-ord.internal:6222
-
 machines_list:
   - app_name: "{{ inventory_hostname }}"
     env:
