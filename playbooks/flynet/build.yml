@@ -41,11 +41,7 @@
           "wget -qO- http://localhost:8222/routez"
       register: __routez_result
       until: >-
-        (__routez_result.stdout | default('{}') | from_json).get('routes', []) |
-        map(attribute='remote_name') |
-        unique |
-        list |
-        length == 2
+        (__routez_result.stdout | default('{}') | from_json).get('num_routes', 0) >= 6
       retries: 30
       delay: 5
       changed_when: false
