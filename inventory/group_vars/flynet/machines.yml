@@ -1,9 +1,4 @@
 ---
-machines_api_token: "{{ flyio_api_token }}"
-
-machines_info_api_token: "{{ flyio_api_token }}"
-machines_info_app_name: "{{ inventory_hostname }}"
-
 machines_list:
   - app_name: "{{ inventory_hostname }}"
     env:
