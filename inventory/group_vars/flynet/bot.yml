@@ -1,5 +1,5 @@
 ---
-flynet_image: ghcr.io/tkimball83/botnats:sha-c85fea6
+flynet_image: ghcr.io/tkimball83/botnats:sha-64db3e2
 flynet_network: undernet
 flynet_irc_servers:
   - irc://eu.undernet.org:6667
