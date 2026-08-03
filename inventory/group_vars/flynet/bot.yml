@@ -1,6 +1,6 @@
 ---
 flynet_channel_modes: "+npst"
-flynet_image: ghcr.io/tkimball83/botnats:v0.0.7
+flynet_image: ghcr.io/tkimball83/botnats:v0.0.8
 flynet_network: undernet
 flynet_irc_servers:
   - irc://eu6.undernet.org:6667
