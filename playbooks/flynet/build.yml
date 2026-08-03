@@ -3,9 +3,21 @@
   hosts: nats
   gather_facts: false
   serial: 1
-  roles:
-    - linuxhq.flyio.apps
-    - linuxhq.flyio.machines
+  tasks:
+    - name: Ensure the flyio app exists
+      ansible.builtin.import_role:
+        name: linuxhq.flyio.apps
+    - name: Ensure the JetStream storage volume exists
+      linuxhq.flyio.volumes:
+        api_token: "{{ flyio_api_token }}"
+        app_name: "{{ inventory_hostname }}"
+        name: jetstream
+        region: "{{ flyio_region }}"
+        size_gb: 1
+        state: present
+    - name: Ensure the flyio machine is deployed
+      ansible.builtin.import_role:
+        name: linuxhq.flyio.machines
 
 - name: Ensure flynet nats cluster is healthy
   hosts: nats

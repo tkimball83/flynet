@@ -21,6 +21,9 @@ machines_list:
       cpus: 1
       memory_mb: 256
     image: nats:2.14.0-alpine
+    mounts:
+      - volume: jetstream
+        path: /data
     init:
       cmd:
         - exec nats-server --config /nats-server.conf
