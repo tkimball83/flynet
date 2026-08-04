@@ -1,23 +1,24 @@
 {{ {
+  "authorization": {
+    "session_ttl_seconds": 3600
+  },
   "bot": {
     "id": inventory_hostname,
     "network": flynet_network,
     "nickname": inventory_hostname
   },
-  "irc": {
-    "channel_modes": flynet_channel_modes,
-    "servers": flynet_irc_servers,
-    "connect_timeout_seconds": 30,
-    "verify_tls": false
-  },
-  "nats": {
-    "servers": flynet_nats_servers
-  },
-  "authorization": {
-    "session_ttl_seconds": 3600
-  },
   "coordination": {
     "maintenance_interval_seconds": 3,
     "presence_ttl_seconds": 15
+  },
+  "irc": {
+    "channel_modes": flynet_channel_modes,
+    "connect_timeout_seconds": 30,
+    "servers": flynet_irc_servers,
+    "verify_tls": false
+  },
+  "nats": {
+    "jetstream_replicas": flynet_jetstream_replicas,
+    "servers": flynet_nats_servers
   }
-} | to_nice_json }}
+} | to_nice_json(sort_keys=true) }}
