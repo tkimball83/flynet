@@ -1,10 +1,16 @@
 ---
-- name: Ensure flynet nats are deployed
+- name: Ensure flynet flynats app is deployed
+  hosts: nats
+  gather_facts: false
+  roles:
+    - role: linuxhq.flyio.apps
+      when: inventory_hostname == (ansible_play_hosts_all | first)
+
+- name: Ensure flynet flynats machines are deployed
   hosts: nats
   gather_facts: false
   serial: 1
   roles:
-    - linuxhq.flyio.apps
     - linuxhq.flyio.volumes
     - linuxhq.flyio.machines
 
@@ -15,10 +21,11 @@
     - name: Ensure nats health checks are passing
       linuxhq.flyio.machines_info:
         api_token: "{{ machines_info_api_token }}"
-        app_name: "{{ inventory_hostname }}"
+        app_name: "{{ flyio_app_name }}"
       register: __nats_health
       until: >-
         __nats_health.machines |
+        selectattr('name', 'equalto', inventory_hostname) |
         selectattr('checks', 'defined') |
         map(attribute='checks') |
         flatten |
@@ -35,15 +42,17 @@
     - name: Retrieve machine id
       linuxhq.flyio.machines_info:
         api_token: "{{ machines_info_api_token }}"
-        app_name: "{{ inventory_hostname }}"
+        app_name: "{{ flyio_app_name }}"
       register: __machines_result
 
     - name: Ensure nats routez reports peer connections
       ansible.builtin.command:
         cmd: >-
           flyctl machine exec
-          {{ __machines_result.machines[0].id }}
-          -a {{ inventory_hostname }}
+          {{ (__machines_result.machines |
+              selectattr('name', 'equalto', inventory_hostname) |
+              first).id }}
+          -a {{ flyio_app_name }}
           "wget -qO- http://localhost:8222/routez"
       register: __routez_result
       until: >-
@@ -52,11 +61,17 @@
       delay: 5
       changed_when: false
 
-- name: Ensure flynet bots are deployed
+- name: Ensure flynet flybots app is deployed
+  hosts: flynet
+  gather_facts: false
+  roles:
+    - role: linuxhq.flyio.apps
+      when: inventory_hostname == (ansible_play_hosts_all | first)
+
+- name: Ensure flynet flybots machines are deployed
   hosts: flynet
   serial: 1
   gather_facts: false
   roles:
-    - linuxhq.flyio.apps
     - linuxhq.flyio.machines
 ...
