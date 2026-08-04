@@ -1,8 +1,9 @@
 ---
 machines_list:
-  - app_name: "{{ inventory_hostname }}"
+  - app_name: "{{ flyio_app_name }}"
     env:
-      BOTNATS_NATS_CLUSTER_ADVERTISE: "{{ inventory_hostname }}.internal:6222"
+      BOTNATS_NATS_CLUSTER_ADVERTISE: >-
+        {{ flyio_region }}.{{ flyio_app_name }}.internal:6222
       BOTNATS_NATS_SERVER_NAME: "{{ inventory_hostname }}"
       BOTNATS_NATS_TOKEN: "{{ flyio_flynet_nats_token }}"
     files:
@@ -24,7 +25,7 @@ machines_list:
     mounts:
       - volume: >-
           {{ (_volumes_info_list |
-              selectattr('name', 'equalto', inventory_hostname | replace('-', '_')) |
+              selectattr('name', 'equalto', flyio_region) |
               selectattr('state', 'equalto', 'created') |
               first).id }}
         path: /data

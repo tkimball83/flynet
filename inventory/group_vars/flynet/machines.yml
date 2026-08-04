@@ -1,6 +1,6 @@
 ---
 machines_list:
-  - app_name: "{{ inventory_hostname }}"
+  - app_name: "{{ flyio_app_name }}"
     env:
       BOTNATS_COORDINATION_SECRET: "{{ flyio_flynet_coordination_secret }}"
       BOTNATS_NATS_TOKEN: "{{ flyio_flynet_nats_token }}"

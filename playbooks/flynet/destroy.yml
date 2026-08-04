@@ -1,13 +1,27 @@
 ---
-- name: Ensure flynet destroy playbook is executed
-  hosts: all
+- name: Ensure flynet flynats app is absent
+  hosts: nats
   gather_facts: false
 
   tasks:
-    - name: Ensure flynet apps are absent
+    - name: Ensure flynet flynats app is absent
       linuxhq.flyio.apps:
         api_token: "{{ flyio_api_token }}"
-        name: "{{ inventory_hostname }}"
+        name: "{{ flyio_app_name }}"
         org_slug: "{{ flyio_org_slug }}"
         state: absent
+      when: inventory_hostname == (ansible_play_hosts_all | first)
+
+- name: Ensure flynet flybots app is absent
+  hosts: flynet
+  gather_facts: false
+
+  tasks:
+    - name: Ensure flynet flybots app is absent
+      linuxhq.flyio.apps:
+        api_token: "{{ flyio_api_token }}"
+        name: "{{ flyio_app_name }}"
+        org_slug: "{{ flyio_org_slug }}"
+        state: absent
+      when: inventory_hostname == (ansible_play_hosts_all | first)
 ...
