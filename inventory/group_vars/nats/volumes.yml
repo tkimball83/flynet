@@ -1,0 +1,10 @@
+---
+volumes_api_token: "{{ flyio_api_token }}"
+volumes_info_api_token: "{{ flyio_api_token }}"
+volumes_info_app_name: "{{ inventory_hostname }}"
+
+volumes_list:
+  - app_name: "{{ inventory_hostname }}"
+    name: "{{ inventory_hostname | replace('-', '_') }}"
+    region: "{{ flyio_region }}"
+...

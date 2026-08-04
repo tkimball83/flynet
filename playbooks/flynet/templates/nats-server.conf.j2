@@ -5,6 +5,15 @@ host: "::"
 port: 4222
 http: "[::]:8222"
 
+# JetStream backs the atomic single-use TOTP claim (KV bucket).
+# The bucket uses file storage so a claimed counter survives node and
+# full-cluster restarts; store_dir lives on the mounted /data volume.
+jetstream {
+  store_dir: "/data/jetstream"
+  max_memory_store: 67108864
+  max_file_store: 268435456
+}
+
 authorization {
   token: $BOTNATS_NATS_TOKEN
 }

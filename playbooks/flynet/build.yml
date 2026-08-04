@@ -5,6 +5,7 @@
   serial: 1
   roles:
     - linuxhq.flyio.apps
+    - linuxhq.flyio.volumes
     - linuxhq.flyio.machines
 
 - name: Ensure flynet nats cluster is healthy

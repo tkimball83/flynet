@@ -13,7 +13,7 @@ machines_list:
       healthz:
         type: http
         port: 8222
-        path: /healthz
+        path: /healthz?js-enabled-only=true
         interval: 10s
         timeout: 2s
     guest:
@@ -21,6 +21,10 @@ machines_list:
       cpus: 1
       memory_mb: 256
     image: nats:2.14.0-alpine
+    mounts:
+      - volume: >-
+          {{ _volumes_info_dict[inventory_hostname | replace('-', '_')].id }}
+        path: /data
     init:
       cmd:
         - exec nats-server --config /nats-server.conf
