@@ -23,7 +23,10 @@ machines_list:
     image: nats:2.14.0-alpine
     mounts:
       - volume: >-
-          {{ _volumes_info_dict[inventory_hostname | replace('-', '_')].id }}
+          {{ (_volumes_info_list |
+              selectattr('name', 'equalto', inventory_hostname | replace('-', '_')) |
+              selectattr('state', 'equalto', 'created') |
+              first).id }}
         path: /data
     init:
       cmd:
