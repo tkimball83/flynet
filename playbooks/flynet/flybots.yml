@@ -13,6 +13,7 @@
   roles:
     - linuxhq.flyio.machines
     - linuxhq.flyio.machines_info
+
   post_tasks:
     - name: Ensure bot dependency readiness
       linuxhq.flyio.machines_exec:
