@@ -19,6 +19,7 @@
   gather_facts: false
   roles:
     - linuxhq.flyio.machines_info
+
   post_tasks:
     - name: Ensure nats health checks are passing
       linuxhq.flyio.machines_exec:
@@ -37,6 +38,7 @@
   gather_facts: false
   roles:
     - linuxhq.flyio.machines_info
+
   post_tasks:
     - name: Ensure nats routez reports peer connections
       linuxhq.flyio.machines_exec:
