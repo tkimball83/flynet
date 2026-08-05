@@ -1,13 +1,13 @@
 ---
 - name: Ensure flynet flybots app is deployed
-  hosts: flynet
+  hosts: flybots
   gather_facts: false
   roles:
     - role: linuxhq.flyio.apps
-      when: inventory_hostname == (ansible_play_hosts_all | first)
+      run_once: true
 
 - name: Ensure flynet flybots machines are deployed
-  hosts: flynet
+  hosts: flybots
   serial: 1
   gather_facts: false
   roles:
