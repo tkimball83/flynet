@@ -1,6 +1,6 @@
 ---
 flynet_channel_modes: "+npst"
-flynet_image: ghcr.io/tkimball83/botnats:v0.2.5
+flynet_image: ghcr.io/tkimball83/botnats:v0.3.0
 flynet_jetstream_replicas: 3
 flynet_network: undernet
 flynet_irc_servers:
