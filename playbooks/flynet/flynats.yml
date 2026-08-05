@@ -21,21 +21,16 @@
     - linuxhq.flyio.machines_info
   post_tasks:
     - name: Ensure nats health checks are passing
-      linuxhq.flyio.machines_info:
+      linuxhq.flyio.machines_exec:
         api_token: "{{ machines_info_api_token }}"
         app_name: "{{ flyio_app_name }}"
+        command: wget -qO- http://localhost:8222/healthz?js-enabled-only=true
         id: "{{ _machines_info_dict[inventory_hostname].id }}"
       register: __nats_health
-      until: >-
-        __nats_health.machines |
-        selectattr('checks', 'defined') |
-        map(attribute='checks') |
-        flatten |
-        selectattr('status', 'equalto', 'passing') |
-        list |
-        length == 1
+      until: __nats_health.stdout == 'ok'
       retries: 30
       delay: 5
+      changed_when: false
 
 - name: Ensure flynet nats cluster routes are synced
   hosts: flynats
