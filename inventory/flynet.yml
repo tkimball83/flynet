@@ -1,9 +1,7 @@
 ---
 all:
   children:
-    nats:
-      vars:
-        flyio_app_name: flynats
+    flynats:
       hosts:
         nats-fra:
           flyio_region: fra
@@ -11,9 +9,7 @@ all:
           flyio_region: iad
         nats-ord:
           flyio_region: ord
-    flynet:
-      vars:
-        flyio_app_name: flybots
+    flybots:
       hosts:
         balerion:
           flyio_region: dfw

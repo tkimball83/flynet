@@ -1,27 +1,23 @@
 ---
 - name: Ensure flynet flynats app is absent
-  hosts: nats
+  hosts: flynats
   gather_facts: false
-
-  tasks:
-    - name: Ensure flynet flynats app is absent
-      linuxhq.flyio.apps:
-        api_token: "{{ flyio_api_token }}"
-        name: "{{ flyio_app_name }}"
-        org_slug: "{{ flyio_org_slug }}"
-        state: absent
-      when: inventory_hostname == (ansible_play_hosts_all | first)
+  roles:
+    - role: linuxhq.flyio.apps
+      apps_list:
+        - name: "{{ flyio_app_name }}"
+          org_slug: "{{ flyio_org_slug }}"
+          state: absent
+      run_once: true
 
 - name: Ensure flynet flybots app is absent
-  hosts: flynet
+  hosts: flybots
   gather_facts: false
-
-  tasks:
-    - name: Ensure flynet flybots app is absent
-      linuxhq.flyio.apps:
-        api_token: "{{ flyio_api_token }}"
-        name: "{{ flyio_app_name }}"
-        org_slug: "{{ flyio_org_slug }}"
-        state: absent
-      when: inventory_hostname == (ansible_play_hosts_all | first)
+  roles:
+    - role: linuxhq.flyio.apps
+      apps_list:
+        - name: "{{ flyio_app_name }}"
+          org_slug: "{{ flyio_org_slug }}"
+          state: absent
+      run_once: true
 ...

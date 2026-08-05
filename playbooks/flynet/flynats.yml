@@ -1,13 +1,13 @@
 ---
 - name: Ensure flynet flynats app is deployed
-  hosts: nats
+  hosts: flynats
   gather_facts: false
   roles:
     - role: linuxhq.flyio.apps
-      when: inventory_hostname == (ansible_play_hosts_all | first)
+      run_once: true
 
 - name: Ensure flynet flynats machines are deployed
-  hosts: nats
+  hosts: flynats
   gather_facts: false
   serial: 1
   roles:
@@ -15,7 +15,7 @@
     - linuxhq.flyio.machines
 
 - name: Ensure flynet nats cluster is healthy
-  hosts: nats
+  hosts: flynats
   gather_facts: false
   roles:
     - linuxhq.flyio.machines_info
@@ -38,7 +38,7 @@
       delay: 5
 
 - name: Ensure flynet nats cluster routes are synced
-  hosts: nats
+  hosts: flynats
   gather_facts: false
   roles:
     - linuxhq.flyio.machines_info
