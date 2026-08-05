@@ -74,4 +74,25 @@
   gather_facts: false
   roles:
     - linuxhq.flyio.machines
+  post_tasks:
+    - name: Retrieve bot machine id
+      linuxhq.flyio.machines_info:
+        api_token: "{{ machines_info_api_token }}"
+        app_name: "{{ flyio_app_name }}"
+      register: bot_machines_result
+
+    - name: Ensure bot dependency readiness
+      ansible.builtin.command:
+        cmd: >-
+          flyctl machine exec
+          {{ (bot_machines_result.machines |
+              selectattr('name', 'equalto', inventory_hostname) |
+              first).id }}
+          -a {{ flyio_app_name }}
+          "wget -qO- http://localhost:8080/ready"
+      register: bot_ready_result
+      until: bot_ready_result.stdout == 'ok'
+      retries: 30
+      delay: 5
+      changed_when: false
 ...
