@@ -26,8 +26,8 @@
         app_name: "{{ flyio_app_name }}"
         command: wget -qO- http://localhost:8222/healthz?js-enabled-only=true
         id: "{{ _machines_info_dict[inventory_hostname].id }}"
-      register: __flynats_result
-      until: __flynats_result.stdout == 'ok'
+      register: __flynats_health_result
+      until: __flynats_health_result.stdout == 'ok'
       retries: 30
       delay: 5
       changed_when: false
@@ -44,9 +44,9 @@
         app_name: "{{ flyio_app_name }}"
         command: wget -qO- http://localhost:8222/routez
         id: "{{ _machines_info_dict[inventory_hostname].id }}"
-      register: __routez_result
+      register: __flynats_routez_result
       until: >-
-        (__routez_result.stdout | default('{}') | from_json).get('num_routes', 0) >= 2
+        (__flynats_routez_result.stdout | default('{}') | from_json).get('num_routes', 0) >= 2
       retries: 30
       delay: 5
       changed_when: false
