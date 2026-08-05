@@ -28,7 +28,7 @@
         command: wget -qO- http://localhost:8222/healthz?js-enabled-only=true
         id: "{{ _machines_info_dict[inventory_hostname].id }}"
       register: __flynats_health_result
-      until: __flynats_health_result.stdout == 'ok'
+      until: (__flynats_health_result.stdout | from_json).status == 'ok'
       retries: 30
       delay: 5
       changed_when: false
