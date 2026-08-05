@@ -17,15 +17,17 @@
 - name: Ensure flynet nats cluster is healthy
   hosts: nats
   gather_facts: false
-  tasks:
+  roles:
+    - linuxhq.flyio.machines_info
+  post_tasks:
     - name: Ensure nats health checks are passing
       linuxhq.flyio.machines_info:
         api_token: "{{ machines_info_api_token }}"
         app_name: "{{ flyio_app_name }}"
+        id: "{{ _machines_info_dict[inventory_hostname].id }}"
       register: __nats_health
       until: >-
         __nats_health.machines |
-        selectattr('name', 'equalto', inventory_hostname) |
         selectattr('checks', 'defined') |
         map(attribute='checks') |
         flatten |
@@ -38,22 +40,15 @@
 - name: Ensure flynet nats cluster routes are synced
   hosts: nats
   gather_facts: false
-  tasks:
-    - name: Retrieve machine id
-      linuxhq.flyio.machines_info:
-        api_token: "{{ machines_info_api_token }}"
-        app_name: "{{ flyio_app_name }}"
-      register: __machines_result
-
+  roles:
+    - linuxhq.flyio.machines_info
+  post_tasks:
     - name: Ensure nats routez reports peer connections
       linuxhq.flyio.machines_exec:
         api_token: "{{ machines_info_api_token }}"
         app_name: "{{ flyio_app_name }}"
         command: wget -qO- http://localhost:8222/routez
-        id: >-
-          {{ (__machines_result.machines |
-              selectattr('name', 'equalto', inventory_hostname) |
-              first).id }}
+        id: "{{ _machines_info_dict[inventory_hostname].id }}"
       register: __routez_result
       until: >-
         (__routez_result.stdout | default('{}') | from_json).get('num_routes', 0) >= 2
