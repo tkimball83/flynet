@@ -22,7 +22,7 @@
         command: wget -qO- http://localhost:8080/ready
         id: "{{ _machines_info_dict[inventory_hostname].id }}"
       register: __flybots_result
-      until: __flybots_result.stdout | default('') == 'ok'
+      until: (__flybots_result.stdout | default('""') | from_json) == 'ok'
       retries: 30
       delay: 5
       changed_when: false
