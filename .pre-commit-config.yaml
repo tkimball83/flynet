@@ -1,21 +1,14 @@
 ---
-default_stages:
-  - pre-commit
-
 repos:
   - repo: https://github.com/ansible/ansible-lint.git
     rev: v26.6.0
     hooks:
       - id: ansible-lint
-        language_version: python3
-        files: \.(yaml|yml)$
-        verbose: true
+        language_version: python3.13
 
   - repo: https://github.com/adrienverge/yamllint.git
     rev: v1.38.0
     hooks:
       - id: yamllint
-        files: \.(yaml|yml)$
-        types: [file, yaml]
         entry: yamllint --strict
 ...

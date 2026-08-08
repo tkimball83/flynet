@@ -5,6 +5,7 @@ volumes_info_app_name: "{{ flyio_app_name }}"
 
 volumes_list:
   - app_name: "{{ flyio_app_name }}"
-    name: "{{ flyio_region }}"
-    region: "{{ flyio_region }}"
+    volumes:
+      - name: "{{ flyio_region }}"
+        region: "{{ flyio_region }}"
 ...

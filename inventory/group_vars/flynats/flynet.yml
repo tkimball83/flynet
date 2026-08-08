@@ -1,0 +1,21 @@
+---
+flynet_nats:
+  cluster:
+    advertise:
+      fra: fra.{{ flyio_app_name }}.internal:6222
+      iad: iad.{{ flyio_app_name }}.internal:6222
+      ord: ord.{{ flyio_app_name }}.internal:6222
+    routes:
+      fra: >-
+        nats://flynet:{{ flyio_flynet_nats_cluster_token |
+          urlencode |
+          replace('/', '%2F') }}@{{ flynet_nats.cluster.advertise.fra }}
+      iad: >-
+        nats://flynet:{{ flyio_flynet_nats_cluster_token |
+          urlencode |
+          replace('/', '%2F') }}@{{ flynet_nats.cluster.advertise.iad }}
+      ord: >-
+        nats://flynet:{{ flyio_flynet_nats_cluster_token |
+          urlencode |
+          replace('/', '%2F') }}@{{ flynet_nats.cluster.advertise.ord }}
+...

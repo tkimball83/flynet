@@ -1,6 +1,6 @@
 # nats-server.conf
 
-server_name: $BOTNATS_NATS_SERVER_NAME
+server_name: $NATS_SERVER_NAME
 host: "::"
 port: 4222
 http: "[::]:8222"
@@ -15,24 +15,24 @@ jetstream {
 }
 
 authorization {
-  token: $BOTNATS_NATS_TOKEN
+  token: $NATS_TOKEN
 }
 
 cluster {
   name: flynet
   host: "::"
   port: 6222
-  advertise: $BOTNATS_NATS_CLUSTER_ADVERTISE
+  advertise: $NATS_CLUSTER_ADVERTISE
   no_advertise: true
 
   authorization {
     user: flynet
-    password: $BOTNATS_NATS_TOKEN
+    password: $NATS_CLUSTER_TOKEN
   }
 
   routes: [
-{% for route in nats_routes %}
-    {{ route }}{{ ',' if not loop.last else '' }}
-{% endfor %}
+    $NATS_ROUTE_FRA,
+    $NATS_ROUTE_IAD,
+    $NATS_ROUTE_ORD
   ]
 }

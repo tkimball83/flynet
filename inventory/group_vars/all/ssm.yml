@@ -1,0 +1,19 @@
+---
+flyio_api_token:
+  "{{ lookup('amazon.aws.ssm_parameter', '/flyio/api/token') }}"
+
+flyio_flynet_botnats_coordination_secret:
+  "{{ lookup('amazon.aws.ssm_parameter', '/flyio/flynet/botnats/coordination/secret') }}"
+
+flyio_flynet_botnats_nats_token:
+  "{{ lookup('amazon.aws.ssm_parameter', '/flyio/flynet/botnats/nats/token') }}"
+
+flyio_flynet_botnats_totp_secret:
+  "{{ lookup('amazon.aws.ssm_parameter', '/flyio/flynet/botnats/totp/secret') }}"
+
+flyio_flynet_nats_cluster_token:
+  "{{ lookup('amazon.aws.ssm_parameter', '/flyio/flynet/nats/cluster/token') }}"
+
+flyio_org_slug:
+  "{{ lookup('amazon.aws.ssm_parameter', '/flyio/org/slug') }}"
+...

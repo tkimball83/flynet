@@ -1,5 +1,4 @@
 ---
 exclude_paths:
   - venv
-offline: false
 ...

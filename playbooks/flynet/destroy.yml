@@ -1,17 +1,6 @@
 ---
-- name: Ensure flynet flynats app is absent
-  hosts: flynats
-  gather_facts: false
-  roles:
-    - role: linuxhq.flyio.apps
-      apps_list:
-        - name: "{{ flyio_app_name }}"
-          org_slug: "{{ flyio_org_slug }}"
-          state: absent
-      run_once: true
-
 - name: Ensure flynet flybots app is absent
-  hosts: flybots
+  hosts: flybots[0]
   gather_facts: false
   roles:
     - role: linuxhq.flyio.apps
@@ -19,5 +8,14 @@
         - name: "{{ flyio_app_name }}"
           org_slug: "{{ flyio_org_slug }}"
           state: absent
-      run_once: true
+
+- name: Ensure flynet flynats app is absent
+  hosts: flynats[0]
+  gather_facts: false
+  roles:
+    - role: linuxhq.flyio.apps
+      apps_list:
+        - name: "{{ flyio_app_name }}"
+          org_slug: "{{ flyio_org_slug }}"
+          state: absent
 ...
