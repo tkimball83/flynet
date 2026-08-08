@@ -1,10 +1,10 @@
 ---
 - name: Ensure flynet flybots app is deployed
-  hosts: flybots
+  hosts: flybots[0]
   gather_facts: false
   roles:
-    - role: linuxhq.flyio.apps
-      run_once: true
+    - linuxhq.flyio.apps
+    - linuxhq.flyio.secrets
 
 - name: Ensure flynet flybots machines are deployed
   hosts: flybots

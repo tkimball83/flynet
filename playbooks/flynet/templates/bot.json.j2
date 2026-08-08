@@ -4,7 +4,7 @@
   },
   "bot": {
     "id": inventory_hostname,
-    "network": flynet_network,
+    "network": flynet_botnats.network,
     "nickname": inventory_hostname
   },
   "coordination": {
@@ -12,13 +12,12 @@
     "presence_ttl_seconds": 15
   },
   "irc": {
-    "channel_modes": flynet_channel_modes,
+    "channel_modes": flynet_botnats.channel_modes,
     "connect_timeout_seconds": 30,
-    "servers": flynet_irc_servers,
-    "verify_tls": false
+    "servers": flynet_botnats.irc_servers
   },
   "nats": {
-    "jetstream_replicas": flynet_jetstream_replicas,
-    "servers": flynet_nats_servers
+    "jetstream_replicas": flynet_botnats.jetstream_replicas,
+    "servers": flynet_botnats.nats_servers
   }
 } | to_nice_json(sort_keys=true) }}

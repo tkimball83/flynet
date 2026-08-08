@@ -1,10 +1,10 @@
 ---
 - name: Ensure flynet flynats app is deployed
-  hosts: flynats
+  hosts: flynats[0]
   gather_facts: false
   roles:
-    - role: linuxhq.flyio.apps
-      run_once: true
+    - linuxhq.flyio.apps
+    - linuxhq.flyio.secrets
 
 - name: Ensure flynet flynats machines are deployed
   hosts: flynats
@@ -13,11 +13,6 @@
   roles:
     - linuxhq.flyio.volumes
     - linuxhq.flyio.machines
-
-- name: Ensure flynet nats cluster is healthy
-  hosts: flynats
-  gather_facts: false
-  roles:
     - linuxhq.flyio.machines_info
 
   post_tasks:
@@ -28,7 +23,7 @@
         command: wget -qO- http://localhost:8222/healthz?js-enabled-only=true
         id: "{{ _machines_info_dict[inventory_hostname].id }}"
       register: __flynats_health_result
-      until: (__flynats_health_result.stdout | from_json).status == 'ok'
+      until: __flynats_health_result is succeeded
       retries: 30
       delay: 5
       changed_when: false
@@ -48,7 +43,12 @@
         id: "{{ _machines_info_dict[inventory_hostname].id }}"
       register: __flynats_routez_result
       until: >-
-        (__flynats_routez_result.stdout | default('{}') | from_json).get('num_routes', 0) >= 2
+        (__flynats_routez_result.stdout |
+          default('{"routes": []}', true) |
+          from_json).routes |
+        map(attribute='remote_id') |
+        unique |
+        length == groups['flynats'] | length - 1
       retries: 30
       delay: 5
       changed_when: false

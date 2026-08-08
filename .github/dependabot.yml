@@ -16,12 +16,6 @@ updates:
     commit-message:
       prefix: chore
       include: scope
-    groups:
-      aws:
-        patterns:
-          - awscli
-          - boto3
-          - botocore
 
   - package-ecosystem: pre-commit
     directory: /

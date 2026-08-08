@@ -1,6 +1,13 @@
 ---
-- name: Ensure flynet info playbook is executed
-  hosts: all
+- name: Ensure flynet flybots info is gathered
+  hosts: flybots[0]
+  gather_facts: false
+  roles:
+    - linuxhq.flyio.apps_info
+    - linuxhq.flyio.machines_info
+
+- name: Ensure flynet flynats info is gathered
+  hosts: flynats[0]
   gather_facts: false
   roles:
     - linuxhq.flyio.apps_info

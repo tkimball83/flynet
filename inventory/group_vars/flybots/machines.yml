@@ -1,27 +1,26 @@
 ---
 machines_list:
   - app_name: "{{ flyio_app_name }}"
-    env:
-      BOTNATS_COORDINATION_SECRET: "{{ flyio_flynet_coordination_secret }}"
-      BOTNATS_NATS_TOKEN: "{{ flyio_flynet_nats_token }}"
-      BOTNATS_TOTP_SECRET: "{{ flyio_flynet_totp_secret }}"
-    files:
-      - guest_path: /etc/botnats/bot.json
-        raw_value: >-
-          {{ lookup('template', 'bot.json.j2') | b64encode }}
-    checks:
-      health:
-        type: http
-        port: 8080
-        path: /
-        interval: 15s
-        timeout: 5s
-        grace_period: 30s
-    guest:
-      cpu_kind: shared
-      cpus: 1
-      memory_mb: 256
-    image: "{{ flynet_image }}"
-    name: "{{ inventory_hostname }}"
-    region: "{{ flyio_region }}"
+    machines:
+      - checks:
+          health:
+            grace_period: 30s
+            interval: 15s
+            path: /
+            port: 8080
+            timeout: 5s
+            type: http
+        files:
+          - guest_path: /etc/botnats/bot.json
+            raw_value: >-
+              {{ lookup('template', 'bot.json.j2') | b64encode }}
+        guest:
+          cpu_kind: shared
+          cpus: 1
+          memory_mb: 256
+        image: "{{ flynet_botnats.image }}"
+        name: "{{ inventory_hostname }}"
+        region: "{{ flyio_region }}"
+        restart:
+          policy: always
 ...

@@ -1,6 +1,0 @@
----
-nats_routes:
-  - nats://flynet:{{ flyio_flynet_nats_token }}@fra.flynats.internal:6222
-  - nats://flynet:{{ flyio_flynet_nats_token }}@iad.flynats.internal:6222
-  - nats://flynet:{{ flyio_flynet_nats_token }}@ord.flynats.internal:6222
-...
