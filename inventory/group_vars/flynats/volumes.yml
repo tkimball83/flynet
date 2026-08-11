@@ -8,4 +8,5 @@ volumes_list:
     volumes:
       - name: "{{ flyio_region }}"
         region: "{{ flyio_region }}"
+        size_gb: 1
 ...
